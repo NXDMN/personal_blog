@@ -30,6 +30,7 @@ app.post('/upload', (req, res) => {
       throw err;
     } else {
       res.json(`uploads/${imageName}`);
+      console.log('upload success');
     }
   });
 });
