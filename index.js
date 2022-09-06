@@ -28,11 +28,10 @@ app.post('/upload', (req, res) => {
   let imageName = date.getDate() + date.getTime() + file.name;
 
   let path = 'public/uploads/' + imageName;
-  console.log(__dirname);
 
-  file.mv(path, (err, result) => {
+  file.mv(path, (err) => {
     if (err) {
-      throw err;
+      return res.status(500).send(err);
     } else {
       res.json(`uploads/${imageName}`);
     }
