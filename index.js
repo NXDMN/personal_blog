@@ -18,19 +18,23 @@ app.get('/editor', (req, res) => {
 
 //uplaod link
 app.post('/upload', (req, res) => {
+  if (!req.files) {
+    return res.status(400).send('No files were uploaded.');
+  }
+
   let file = req.files.image;
   let date = new Date();
 
   let imageName = date.getDate() + date.getTime() + file.name;
 
   let path = 'public/uploads/' + imageName;
+  console.log(__dirname);
 
   file.mv(path, (err, result) => {
     if (err) {
       throw err;
     } else {
       res.json(`uploads/${imageName}`);
-      console.log('upload success');
     }
   });
 });
