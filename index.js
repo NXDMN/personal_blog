@@ -16,28 +16,6 @@ app.get('/editor', (req, res) => {
   res.sendFile(path.join(initial_path, 'editor.html'));
 });
 
-//uplaod link
-app.post('/upload', (req, res) => {
-  if (!req.files) {
-    return res.status(400).send('No files were uploaded.');
-  }
-
-  let file = req.files.image;
-  let date = new Date();
-
-  let imageName = date.getDate() + date.getTime() + file.name;
-
-  let path = 'public/uploads/' + imageName;
-
-  file.mv(path, (err) => {
-    if (err) {
-      return res.status(500).send(err);
-    } else {
-      res.json(`uploads/${imageName}`);
-    }
-  });
-});
-
 app.get('/:blog', (req, res) => {
   res.sendFile(path.join(initial_path, 'blog.html'));
 });

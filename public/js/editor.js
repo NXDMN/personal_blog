@@ -19,20 +19,18 @@ uploadInput.addEventListener('change', () => {
 const uploadImage = (uploadFile, uploadType) => {
   const [file] = uploadFile.files;
   if (file && file.type.includes('image')) {
-    const formdata = new FormData();
-    formdata.append('image', file);
+    var storageRef = storage.ref();
 
-    fetch('/upload', {
-      method: 'post',
-      body: formdata,
-    })
-      .then((res) => res.json())
-      .then((data) => {
+    const imageRef = storageRef.child(file.name);
+    imageRef
+      .put(file)
+      .then((snapshot) => snapshot.ref.getDownloadURL())
+      .then((url) => {
         if (uploadType == 'image') {
-          addImage(data, file.name);
+          addImage(url, file.name);
         } else {
-          bannerPath = `${location.origin}/${data}`;
-          banner.style.backgroundImage = `url("${bannerPath}")`;
+          bannerPath = url;
+          banner.style.backgroundImage = `url("${url}")`;
         }
       });
   } else {
